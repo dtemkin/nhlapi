@@ -11,6 +11,8 @@ single place.
 
 [Teams](#teams)
 
+[Roster Types](#roster-types)
+
 [Divisions](#divisions)
 
 [Conferences](#conferences)
@@ -18,6 +20,8 @@ single place.
 [People](#people)
 
 [Game-IDs](#game-ids)
+
+[Game Types](#game-types)
 
 [Schedule](#schedule)
 
@@ -44,6 +48,7 @@ all teams including their id, venue details, division, conference and franchise 
 
 `GET https://statsapi.web.nhl.com/api/v1/teams/ID` Returns the same information as above just
 for a single team instead of the entire league.
+
 #### Modifiers
 `?expand=team.roster` Shows roster of active players for the specified team 
 
@@ -124,10 +129,28 @@ including id value, name, jersey number and position details.
   },
 ```
 ---
+### <a name='roster-types'></a>Roster Types
+`GET https://statsapi.web.nhl.com/api/v1/rosterTypes` Returns full list of types as they pertain to different roster groups.
+```
+[{
+  "description" : "40 man roster for a team",
+  "parameter" : "40Man"
+}, {
+  "description" : "Full roster including active and inactive players",
+  "parameter" : "fullRoster"
+}, {
+  "description" : "Active roster for a team",
+  "parameter" : "active"
+}, {
+  "description" : "Depth chart for a team",
+  "parameter" : "depthChart"
+}]
+```
+
 ### <a name="divisions"></a>Divisions
-`GET https://statsapi.web.nhl.com/api/v1/divisions`  Returns full list of divisions
+`GET https://statsapi.web.nhl.com/api/v1/divisions`  Returns full list of (ACTIVE) divisions
 and associated data like which conference they belong to, id values and API links.
-Does not show inactive divisions
+
 
 `GET https://statsapi.web.nhl.com/api/v1/divisions/ID` Same as above but only for a
 single division. This can show old inactive divisions such as 13 Patrick.
@@ -512,6 +535,48 @@ since the given startTimecode. If the startTimecode param is missing, returns an
 #### <a name="game-ids">Game IDs
 The first 4 digits identify the season of the game (ie. 2017 for the 2017-2018 season). The next 2 digits give the type of game, where 01 = preseason, 02 = regular season, 03 = playoffs, 04 = all-star. The final 4 digits identify the specific game number. For regular season and preseason games, this ranges from 0001 to the number of games played. (1271 for seasons with 31 teams (2017 and onwards) and 1230 for seasons with 30 teams). For playoff games, the 2nd digit of the specific number gives the round of the playoffs, the 3rd digit specifies the matchup, and the 4th digit specifies the game (out of 7).
 
+#### <a name='game-types'></a>Game Types
+`GET https://statsapi.web.nhl.com/api/v1/gameTypes` Returns all available game types that can be returned in game data results.
+
+```
+[ {
+  "id" : "PR",
+  "description" : "Pre-season",
+  "postseason" : false
+}, {
+  "id" : "R",
+  "description" : "Regular season",
+  "postseason" : false
+}, {
+  "id" : "P",
+  "description" : "Playoffs",
+  "postseason" : true
+}, {
+  "id" : "A",
+  "description" : "All-Star game",
+  "postseason" : false
+}, {
+  "id" : "O",
+  "description" : "Olympic game",
+  "postseason" : false
+}, {
+  "id" : "E",
+  "description" : "Exhibition",
+  "postseason" : false
+}, {
+  "id" : "WCOH_EXH",
+  "description" : "World cup of hockey exhibition/preseason games ",
+  "postseason" : false
+}, {
+  "id" : "WCOH_PRELIM",
+  "description" : "World cup of hockey preliminary games ",
+  "postseason" : false
+}, {
+  "id" : "WCOH_FINAL",
+  "description" : "World cup of hockey semifinals and finals ",
+  "postseason" : false
+} ]
+```
 ---
 ### <a name="schedule">Schedule
 
